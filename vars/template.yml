@@ -1,0 +1,18 @@
+---
+horizon_url: "HORIZON_URL"
+
+auth: {
+  auth_url: "AUTH_URL",
+  username: "admin",
+  password: "PASSWORD",
+  domain_name: "default",
+  project_name: "admin"
+}
+
+env: {
+  region_name: "",
+  availability_zone: "nova",
+  private_net_name: "test",
+  public_key_file: "/home/igene/.ssh/id_rsa.pub",
+  block_device_name: "/dev/vdb",
+}

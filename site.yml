@@ -1,0 +1,8 @@
+---
+- name: provision servers
+  hosts: cloud
+  connection: local
+  vars_files:
+    - "vars/{{ env }}.yml"
+  roles:
+    - "{{ action }}"

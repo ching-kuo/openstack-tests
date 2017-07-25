@@ -1,0 +1,124 @@
+---
+# tasks file for tests
+#- name: Get start timestamp
+#  set_fact:
+#    starttime: "{{ ansible_data_time }}"
+
+- name: Delete test node
+  os_server:
+      state: absent
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      name: test
+      image: "cirros"
+      key_name: "openstack-tests"
+      timeout: 200
+      flavor: test
+      network: test
+      security_groups: test_sg
+      floating_ip_pools: "{{ test_env.public_net_name | default(omit) }}"
+      meta:
+          hostname: test
+
+- name: Delete image  
+  os_image:
+      state: absent
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      name: cirros
+      container_format: bare
+      disk_format: qcow2
+      state: absent
+      filename: cirros-0.3.5-x86_64-disk.img
+      kernel: cirros-vmlinuz
+      ramdisk: cirros-initrd
+      properties:
+        cpu_arch: x86_64
+        distro: ubuntu
+
+- name: Delete router
+  os_router:
+      state: absent
+      auth: "{{ auth }}"
+      validate_certs: False
+      name: test_router
+      network: ext-net
+      interfaces:
+          - test-subnet
+            # - ext-subnet
+
+- name: Delete subnet
+  os_subnet:
+      state: absent
+      auth: "{{ auth }}"
+      #validate_cert: False
+      network_name: test
+      name: test-subnet
+      cidr: 192.168.113.0/24
+      dns_nameservers:
+          - 8.8.8.8
+
+
+- name: Delete network
+  os_network:
+      state: absent
+      auth: "{{ auth }}"
+      validate_certs: False
+      name: test
+      external: no
+
+- name: Delete test flavor
+  os_nova_flavor:
+      state: absent
+      auth: "{{ admin_auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      name: test
+      ram: 512
+      vcpus: 1
+      disk: 5
+      ephemeral: 0
+      
+#- name: Retrieve specified flavor
+#  os_flavor_facts:
+#      auth: "{{ auth }}"
+#      region_name: "{{ test_env.region_name }}"
+#      availability_zone: "{{ test_env.availability_zone }}"
+#      validate_certs: False
+#      name: "{{ test_env.flavor_name }}"
+
+- name: Delete key-pair
+  os_keypair:
+      state: "absent"
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      name: "openstack-tests"
+      public_key_file: "{{ test_env.public_key_file }}"
+
+- name: Delete volume
+  os_volume:
+      state: absent
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      size: 1
+      wait: yes
+      display_name: test_volume
+
+- name: Delete security group
+  os_security_group:
+      state: absent
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      name: test_sg
+      description: security group for testing
