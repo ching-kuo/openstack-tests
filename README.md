@@ -13,9 +13,9 @@ This playbook will test functionality of main projects in OpenStack including:
 ## Requirments 
 
 - [Install Ansible](http://docs.ansible.com/ansible/intro_installation.html)
-- [Install openstack shade] (http://docs.openstack.org/infra/shade/installation.html)
+- [Install openstack shade](http://docs.openstack.org/infra/shade/installation.html)
 - Clone this project into a directory.
-- [Download Cirros Image] (http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img)
+- [Download Cirros Image](http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img)
 
 ## Ansible
 
