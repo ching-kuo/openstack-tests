@@ -1,0 +1,27 @@
+---
+- name: Create volume
+  os_volume:
+      state: present
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      size: 1
+      wait: yes
+      display_name: test_volume
+
+- name: Create a volume for test instance
+  os_server_volume:
+      state: present
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      server: test
+      volume: test_volume
+
+
+
+
+
+

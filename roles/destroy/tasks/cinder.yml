@@ -1,0 +1,11 @@
+---
+- name: Delete volume
+  os_volume:
+      state: absent
+      auth: "{{ auth }}"
+      region_name: "{{ test_env.region_name }}"
+      availability_zone: "{{ test_env.availability_zone }}"
+      validate_certs: False
+      size: 1
+      wait: yes
+      display_name: test_volume

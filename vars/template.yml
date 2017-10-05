@@ -9,10 +9,11 @@ auth: {
   project_name: "admin"
 }
 
-env: {
-  region_name: "",
+test_env: {
+  region_name: "RegionOne",
+  public_key_file: "PUB_KEY_FILE_LOCATION",
+  validate_certs: False,
   availability_zone: "nova",
-  private_net_name: "test",
-  public_key_file: "/home/igene/.ssh/id_rsa.pub",
-  block_device_name: "/dev/vdb",
+  public_net_name: "ext-net",
+  enable_cinder: True
 }

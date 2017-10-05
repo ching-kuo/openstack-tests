@@ -74,7 +74,7 @@
 - name: Delete test flavor
   os_nova_flavor:
       state: absent
-      auth: "{{ admin_auth }}"
+      auth: "{{ auth }}"
       region_name: "{{ test_env.region_name }}"
       availability_zone: "{{ test_env.availability_zone }}"
       validate_certs: False
@@ -84,14 +84,6 @@
       disk: 5
       ephemeral: 0
       
-#- name: Retrieve specified flavor
-#  os_flavor_facts:
-#      auth: "{{ auth }}"
-#      region_name: "{{ test_env.region_name }}"
-#      availability_zone: "{{ test_env.availability_zone }}"
-#      validate_certs: False
-#      name: "{{ test_env.flavor_name }}"
-
 - name: Delete key-pair
   os_keypair:
       state: "absent"
@@ -102,16 +94,8 @@
       name: "openstack-tests"
       public_key_file: "{{ test_env.public_key_file }}"
 
-- name: Delete volume
-  os_volume:
-      state: absent
-      auth: "{{ auth }}"
-      region_name: "{{ test_env.region_name }}"
-      availability_zone: "{{ test_env.availability_zone }}"
-      validate_certs: False
-      size: 1
-      wait: yes
-      display_name: test_volume
+- include: cinder.yml
+  when: "{{ test_env.enable_cinder }}"
 
 - name: Delete security group
   os_security_group:
